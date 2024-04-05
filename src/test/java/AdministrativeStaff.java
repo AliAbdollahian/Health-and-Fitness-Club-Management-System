@@ -9,4 +9,17 @@ public class AdministrativeStaff {
         this.fullName = fullName;
         this.email = email;
     }
+
+    // Getters
+    public int getAdministrativeId() {
+        return administrativeId;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }
