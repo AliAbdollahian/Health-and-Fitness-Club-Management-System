@@ -4,19 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="96d2880a-daea-44bc-bdf4-88b77071c9b1" name="Changes" comment="Initial structure, provided classes and methods to be implemented">
+    <list default="true" id="96d2880a-daea-44bc-bdf4-88b77071c9b1" name="Changes" comment="More Operations">
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project_v1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Project_v1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/DatabaseOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/DatabaseOperations.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/JdbcDatabaseOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/JdbcDatabaseOperations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Trainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Trainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/BillingAndPayment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/BillingAndPayment.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/ClassSchedule.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ClassSchedule.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/EquipmentMaintenance.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/EquipmentMaintenance.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/HealthMetrics.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/HealthMetrics.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/JdbcDatabaseOperations.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/JdbcDatabaseOperations.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/RoomBooking.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/RoomBooking.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/Trainer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/Trainer.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,11 +44,23 @@
     </favorite-branches>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="InitialStructure" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;harishan-a&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/AliAbdollahian/Health-and-Fitness-Club-Management-System.git&quot;,
+    &quot;accountId&quot;: &quot;d3f65fe7-8a6e-4e82-9ac4-170df14dfca6&quot;
+  }
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -68,6 +77,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Application.GUI.executor&quot;: &quot;Run&quot;,
     &quot;Application.Main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
@@ -76,26 +86,26 @@
     &quot;git-widget-placeholder&quot;: &quot;InitialStructure&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-20&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/harishanamutheesan/Developer/School/COMP 3005/Health-and-Fitness-Club-Management-System&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;/Users/ali/Documents/COMP3005/Project_v1/src/main/java/org/example/Main.java&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="RunManager">
-    <configuration name="GUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="GUI" />
-      <module name="Project_v1" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Project_v1" />
@@ -105,7 +115,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.GUI" />
         <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
@@ -113,7 +122,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-20.0.2-azul-20.0.2-f644763e9732-2383794a" />
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
       </set>
     </attachedChunks>
   </component>
@@ -126,8 +136,9 @@
       <option name="presentableId" value="Default" />
       <updated>1712074197282</updated>
       <workItem from="1712074199332" duration="6163000" />
-      <workItem from="1712584515348" duration="840000" />
-      <workItem from="1712609622547" duration="5921000" />
+      <workItem from="1712278365194" duration="2035000" />
+      <workItem from="1712282268848" duration="1132000" />
+      <workItem from="1712684360965" duration="4415000" />
     </task>
     <task id="LOCAL-00001" summary="Initial structure, provided classes and methods to be implemented">
       <option name="closed" value="true" />
@@ -137,15 +148,23 @@
       <option name="project" value="LOCAL" />
       <updated>1712101797830</updated>
     </task>
-    <task id="LOCAL-00002" summary="Initial structure, provided classes and methods to be implemented">
+    <task id="LOCAL-00002" summary="Update">
       <option name="closed" value="true" />
-      <created>1712688037686</created>
+      <created>1712278519119</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1712688037686</updated>
+      <updated>1712278519119</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="More Operations">
+      <option name="closed" value="true" />
+      <created>1712691688136</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1712691688136</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -164,7 +183,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial structure, provided classes and methods to be implemented" />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial structure, provided classes and methods to be implemented" />
+    <MESSAGE value="Update" />
+    <MESSAGE value="More Operations" />
+    <option name="LAST_COMMIT_MESSAGE" value="More Operations" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

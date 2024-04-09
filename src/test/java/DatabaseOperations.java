@@ -1,3 +1,4 @@
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -18,6 +19,10 @@ public interface DatabaseOperations {
     void addTrainer(Trainer trainer);
     void updateTrainer(Trainer trainer);
     void deleteTrainer(int trainerId);
+
+    void addTrainerAvailabilityDate(int trainerId, Date availabilityDate);
+
+    Date getTrainerAvailabilityDate(int trainerId);
 
     // Administrative staff operations
     AdministrativeStaff getAdministrativeStaffById(int administrativeId);
