@@ -22,4 +22,13 @@ public class AdministrativeStaff {
     public String getEmail() {
         return email;
     }
+
+    @Override
+    public String toString() {
+        return "AdministrativeStaff{" +
+                "administrativeId=" + administrativeId +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

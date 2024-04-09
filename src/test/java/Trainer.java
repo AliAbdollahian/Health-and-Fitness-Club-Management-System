@@ -24,4 +24,13 @@ public class Trainer {
     public Date getAvailability() {
         return availability;
     }
+
+    @Override
+    public String toString() {
+        return "Trainer{" +
+                "trainerId=" + trainerId +
+                ", fullName='" + fullName + '\'' +
+                ", availability=" + availability +
+                '}';
+    }
 }

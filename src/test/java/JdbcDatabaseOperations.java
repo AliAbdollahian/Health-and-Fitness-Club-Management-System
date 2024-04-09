@@ -19,7 +19,6 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
         }
     }
 
-
     @Override
     public Member getMemberById(int memberId) {
         Member member = null;
@@ -118,14 +117,14 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
     @Override
     public Trainer getTrainerById(int trainerId) {
         Trainer trainer = null;
-        String query = "SELECT * FROM trainer_profiles WHERE trainer_id = ?";
+        String query = "SELECT * FROM trainer WHERE trainerId = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, trainerId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 trainer = new Trainer(
-                        resultSet.getInt("trainer_id"),
-                        resultSet.getString("full_name"),
+                        resultSet.getInt("trainerId"),
+                        resultSet.getString("fullName"),
                         resultSet.getDate("availability")
                 );
             }
@@ -138,13 +137,13 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
     @Override
     public List<Trainer> getAllTrainers() {
         List<Trainer> trainers = new ArrayList<>();
-        String query = "SELECT * FROM trainer_profiles";
+        String query = "SELECT * FROM trainer";
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Trainer trainer = new Trainer(
-                        resultSet.getInt("trainer_id"),
-                        resultSet.getString("full_name"),
+                        resultSet.getInt("trainerId"),
+                        resultSet.getString("fullName"),
                         resultSet.getDate("availability")
                 );
                 trainers.add(trainer);
@@ -157,7 +156,7 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
 
     @Override
     public void addTrainer(Trainer trainer) {
-        String query = "INSERT INTO trainer_profiles (trainer_id, full_name, availability) VALUES (?, ?, ?)";
+        String query = "INSERT INTO trainer (trainerId, fullName, availability) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, trainer.getTrainerId());
             preparedStatement.setString(2, trainer.getFullName());
@@ -170,7 +169,7 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
 
     @Override
     public void updateTrainer(Trainer trainer) {
-        String query = "UPDATE trainer_profiles SET full_name = ?, availability = ? WHERE trainer_id = ?";
+        String query = "UPDATE trainer SET fullName = ?, availability = ? WHERE trainerId = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, trainer.getFullName());
             preparedStatement.setDate(2, new java.sql.Date(trainer.getAvailability().getTime()));
@@ -183,7 +182,7 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
 
     @Override
     public void deleteTrainer(int trainerId) {
-        String query = "DELETE FROM trainer_profiles WHERE trainer_id = ?";
+        String query = "DELETE FROM trainer WHERE trainerId = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, trainerId);
             preparedStatement.executeUpdate();
@@ -195,14 +194,14 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
     @Override
     public AdministrativeStaff getAdministrativeStaffById(int administrativeId) {
         AdministrativeStaff staff = null;
-        String query = "SELECT * FROM administrative_profiles WHERE administrative_id = ?";
+        String query = "SELECT * FROM administrativeProfiles WHERE administrativeId = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, administrativeId);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 staff = new AdministrativeStaff(
-                        resultSet.getInt("administrative_id"),
-                        resultSet.getString("full_name"),
+                        resultSet.getInt("administrativeId"),
+                        resultSet.getString("fullName"),
                         resultSet.getString("email")
                 );
             }
@@ -215,13 +214,13 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
     @Override
     public List<AdministrativeStaff> getAllAdministrativeStaff() {
         List<AdministrativeStaff> staffMembers = new ArrayList<>();
-        String query = "SELECT * FROM administrative_profiles";
+        String query = "SELECT * FROM administrativeProfiles";
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 AdministrativeStaff staff = new AdministrativeStaff(
-                        resultSet.getInt("administrative_id"),
-                        resultSet.getString("full_name"),
+                        resultSet.getInt("administrativeId"),
+                        resultSet.getString("fullName"),
                         resultSet.getString("email")
                 );
                 staffMembers.add(staff);
@@ -234,7 +233,7 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
 
     @Override
     public void addAdministrativeStaff(AdministrativeStaff administrativeStaff) {
-        String query = "INSERT INTO administrative_profiles (administrative_id, full_name, email) VALUES (?, ?, ?)";
+        String query = "INSERT INTO administrativeProfiles (administrativeId, fullName, email) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, administrativeStaff.getAdministrativeId());
             preparedStatement.setString(2, administrativeStaff.getFullName());
@@ -247,7 +246,7 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
 
     @Override
     public void updateAdministrativeStaff(AdministrativeStaff administrativeStaff) {
-        String query = "UPDATE administrative_profiles SET full_name = ?, email = ? WHERE administrative_id = ?";
+        String query = "UPDATE administrativeProfiles SET fullName = ?, email = ? WHERE administrativeId = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, administrativeStaff.getFullName());
             preparedStatement.setString(2, administrativeStaff.getEmail());
@@ -260,7 +259,7 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
 
     @Override
     public void deleteAdministrativeStaff(int administrativeId) {
-        String query = "DELETE FROM administrative_profiles WHERE administrative_id = ?";
+        String query = "DELETE FROM administrativeProfiles WHERE administrativeId = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, administrativeId);
             preparedStatement.executeUpdate();
