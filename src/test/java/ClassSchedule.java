@@ -1,15 +1,16 @@
-import java.sql.Time;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class ClassSchedule {
     private int classId;
     private String className;
-    private Date classDate;
-    private Time startTime;
-    private Time endTime;
+    private LocalDate classDate;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private int trainerId;
 
-    public ClassSchedule(int classId, String className, Date classDate, Time startTime, Time endTime, int trainerId) {
+    // Constructor
+    public ClassSchedule(int classId, String className, LocalDate classDate, LocalTime startTime, LocalTime endTime, int trainerId) {
         this.classId = classId;
         this.className = className;
         this.classDate = classDate;
@@ -18,48 +19,50 @@ public class ClassSchedule {
         this.trainerId = trainerId;
     }
 
+    // Getters
     public int getClassId() {
         return classId;
-    }
-
-    public void setClassId(int classId) {
-        this.classId = classId;
     }
 
     public String getClassName() {
         return className;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public Date getClassDate() {
+    public LocalDate getClassDate() {
         return classDate;
     }
 
-    public void setClassDate(Date classDate) {
-        this.classDate = classDate;
-    }
-
-    public Time getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
-    }
-
-    public Time getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
-    }
-
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
     }
 
     public int getTrainerId() {
         return trainerId;
+    }
+
+    // Setters
+    public void setClassId(int classId) {
+        this.classId = classId;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public void setClassDate(LocalDate classDate) {
+        this.classDate = classDate;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
 
     public void setTrainerId(int trainerId) {

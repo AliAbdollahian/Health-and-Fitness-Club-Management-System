@@ -1,11 +1,12 @@
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcDatabaseOperations implements DatabaseOperations {
-    private static final String URL = "jdbc:postgresql://localhost:5432/Health and Fitness Club Management System";
+    private static final String URL = "jdbc:postgresql://localhost:5432/Health-and-Fitness-Club-Management-System";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "987654Aa@";
+    private static final String PASSWORD = "postgres";
     private Connection connection;
 
     public JdbcDatabaseOperations() {
@@ -26,6 +27,30 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, memberId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                member = new Member(
+                        resultSet.getInt("memberId"),
+                        resultSet.getString("fullName"),
+                        resultSet.getDate("dateOfBirth"),
+                        resultSet.getString("fitnessGoal"),
+                        resultSet.getDouble("weightGoal"),
+                        resultSet.getInt("timeGoal")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return member;
+    }
+
+    @Override
+    public Member getMemberByName(String fullName) {
+        Member member = null;
+        String query = "SELECT * FROM Member WHERE fullName = ?";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, fullName);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 member = new Member(
@@ -295,4 +320,126 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
             e.printStackTrace();
         }
     }
+
+
+    //Health Metrics Operations
+    // Add a new health metric record
+    @Override
+    public void addHealthMetric(HealthMetrics healthMetric) {
+        String query = "INSERT INTO healthMetrics (memberId, weight, height) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, healthMetric.getMemberId());
+            preparedStatement.setBigDecimal(2, BigDecimal.valueOf(healthMetric.getWeight()));
+            preparedStatement.setBigDecimal(3, BigDecimal.valueOf(healthMetric.getHeight()));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Get health metrics by memberId
+    @Override
+    public List<HealthMetrics> getHealthMetricsByMemberId(int memberId) {
+        List<HealthMetrics> metrics = new ArrayList<>();
+        String query = "SELECT * FROM healthMetrics WHERE memberId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, memberId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                HealthMetrics metric = new HealthMetrics(
+                        resultSet.getInt("metricId"),
+                        resultSet.getInt("memberId"),
+                        resultSet.getBigDecimal("weight").doubleValue(),
+                        resultSet.getBigDecimal("height").doubleValue()
+                );
+                metrics.add(metric);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return metrics;
+    }
+
+    // Update a health metric
+    @Override
+    public void updateHealthMetric(HealthMetrics healthMetric) {
+        String query = "UPDATE healthMetrics SET weight = ?, height = ? WHERE metricId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setBigDecimal(1, BigDecimal.valueOf(healthMetric.getWeight()));
+            preparedStatement.setBigDecimal(2, BigDecimal.valueOf(healthMetric.getHeight()));
+            preparedStatement.setInt(3, healthMetric.getMetricId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Delete a health metric
+    @Override
+    public void deleteHealthMetric(int metricId) {
+        String query = "DELETE FROM healthMetrics WHERE metricId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, metricId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    // ClassSchedule Operations
+    @Override
+    public void addClassSchedule(ClassSchedule schedule) throws SQLException {
+        String query = "INSERT INTO classSchedules (className, classDate, startTime, endTime, trainerId) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, schedule.getClassName());
+            preparedStatement.setDate(2, Date.valueOf(schedule.getClassDate()));
+            preparedStatement.setTime(3, Time.valueOf(schedule.getStartTime()));
+            preparedStatement.setTime(4, Time.valueOf(schedule.getEndTime()));
+            preparedStatement.setInt(5, schedule.getTrainerId());
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    @Override
+    public List<ClassSchedule> getAllClassSchedules() throws SQLException {
+        List<ClassSchedule> schedules = new ArrayList<>();
+        String query = "SELECT * FROM classSchedules";
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                schedules.add(new ClassSchedule(
+                        resultSet.getInt("classId"),
+                        resultSet.getString("className"),
+                        resultSet.getDate("classDate").toLocalDate(),
+                        resultSet.getTime("startTime").toLocalTime(),
+                        resultSet.getTime("endTime").toLocalTime(),
+                        resultSet.getInt("trainerId")));
+            }
+        }
+        return schedules;
+    }
+
+    @Override
+    public void updateClassSchedule(ClassSchedule schedule) throws SQLException {
+        String query = "UPDATE classSchedules SET className = ?, classDate = ?, startTime = ?, endTime = ?, trainerId = ? WHERE classId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, schedule.getClassName());
+            preparedStatement.setDate(2, Date.valueOf(schedule.getClassDate()));
+            preparedStatement.setTime(3, Time.valueOf(schedule.getStartTime()));
+            preparedStatement.setTime(4, Time.valueOf(schedule.getEndTime()));
+            preparedStatement.setInt(5, schedule.getTrainerId());
+            preparedStatement.setInt(6, schedule.getClassId());
+            preparedStatement.executeUpdate();
+        }
+    }
+    @Override
+    public void deleteClassSchedule(int classId) throws SQLException {
+        String query = "DELETE FROM classSchedules WHERE classId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, classId);
+            preparedStatement.executeUpdate();
+        }
+    }
+
 }
