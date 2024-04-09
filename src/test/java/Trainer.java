@@ -33,4 +33,9 @@ public class Trainer {
                 ", availability=" + availability +
                 '}';
     }
+
+    public void setAvailability(Date availability) {
+        this.availability = availability;
+    }
+
 }

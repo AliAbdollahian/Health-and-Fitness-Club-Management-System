@@ -191,6 +191,34 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
         }
     }
 
+    // Inside JdbcDatabaseOperations class
+
+    public void addTrainerAvailabilityDate(int trainerId, Date availabilityDate) {
+        String query = "UPDATE trainer SET availability = ? WHERE trainerId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setDate(1, new java.sql.Date(availabilityDate.getTime()));
+            preparedStatement.setInt(2, trainerId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Date getTrainerAvailabilityDate(int trainerId) {
+        Date availabilityDate = null;
+        String query = "SELECT availability FROM trainer WHERE trainerId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, trainerId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                availabilityDate = resultSet.getDate("availability");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return availabilityDate;
+    }
+
     @Override
     public AdministrativeStaff getAdministrativeStaffById(int administrativeId) {
         AdministrativeStaff staff = null;

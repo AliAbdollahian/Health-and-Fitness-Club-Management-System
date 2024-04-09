@@ -5,22 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="96d2880a-daea-44bc-bdf4-88b77071c9b1" name="Changes" comment="Initial structure, provided classes and methods to be implemented">
-      <change afterPath="$PROJECT_DIR$/src/test/java/Controller.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/GUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/AdministrativeStaff.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/AdministrativeStaff.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/BillingAndPayment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/BillingAndPayment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ClassSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ClassSchedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/EquipmentMaintenance.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/EquipmentMaintenance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/HealthMetrics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/HealthMetrics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project_v1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Project_v1.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/JdbcDatabaseOperations.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/JdbcDatabaseOperations.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/RoomBooking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/RoomBooking.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/Trainer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Trainer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/AdministrativeStaff.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/AdministrativeStaff.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/BillingAndPayment.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/BillingAndPayment.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/ClassSchedule.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/ClassSchedule.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/EquipmentMaintenance.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/EquipmentMaintenance.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/HealthMetrics.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/HealthMetrics.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/JdbcDatabaseOperations.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/JdbcDatabaseOperations.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/test-classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/RoomBooking.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/RoomBooking.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/test-classes/Trainer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/Trainer.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,29 +66,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.GUI.executor": "Run",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "InitialStructure",
-    "jdk.selected.JAVA_MODULE": "openjdk-20",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/Users/ali/Documents/COMP3005/Project_v1/src/main/java/org/example/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.GUI.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;InitialStructure&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;openjdk-20&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/Users/ali/Documents/COMP3005/Project_v1/src/main/java/org/example/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Application.GUI">
+}</component>
+  <component name="RunManager">
     <configuration name="GUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="GUI" />
       <module name="Project_v1" />
@@ -132,7 +127,7 @@
       <updated>1712074197282</updated>
       <workItem from="1712074199332" duration="6163000" />
       <workItem from="1712584515348" duration="840000" />
-      <workItem from="1712609622547" duration="4086000" />
+      <workItem from="1712609622547" duration="5921000" />
     </task>
     <task id="LOCAL-00001" summary="Initial structure, provided classes and methods to be implemented">
       <option name="closed" value="true" />
@@ -142,7 +137,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712101797830</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Initial structure, provided classes and methods to be implemented">
+      <option name="closed" value="true" />
+      <created>1712688037686</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1712688037686</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
