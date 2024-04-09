@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcDatabaseOperations implements DatabaseOperations {
-    private static final String URL = "jdbc:postgresql://localhost:5432/Health and Fitness Club Management System";
+    private static final String URL = "jdbc:postgresql://localhost:5432/Health-and-Fitness-Club-Management-System";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "987654Aa@";
+    private static final String PASSWORD = "postgres";
     private Connection connection;
 
     public JdbcDatabaseOperations() {
