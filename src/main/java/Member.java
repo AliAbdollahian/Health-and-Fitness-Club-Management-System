@@ -76,4 +76,14 @@ public class Member {
                 ", timeGoal=" + timeGoal +
                 '}';
     }
+
+    public String getProfileStatus() {
+        // Example logic: If fitnessGoal, weightGoal, and timeGoal are set, profile is complete; otherwise, it's incomplete.
+        if (fitnessGoal != null && !fitnessGoal.isEmpty() && weightGoal > 0 && timeGoal > 0) {
+            return "Complete";
+        } else {
+            return "Incomplete";
+        }
+    }
+
 }

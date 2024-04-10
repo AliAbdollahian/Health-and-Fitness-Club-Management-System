@@ -1,5 +1,6 @@
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.List;
 
 public interface DatabaseOperations {
@@ -43,6 +44,7 @@ public interface DatabaseOperations {
     List<ClassSchedule> getAllClassSchedules() throws SQLException;
 
     void updateClassSchedule(ClassSchedule schedule) throws SQLException;
+
 
     void deleteClassSchedule(int classId) throws SQLException;
 
