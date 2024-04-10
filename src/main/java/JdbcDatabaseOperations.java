@@ -545,4 +545,58 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
         }
     }
 
+    // Method to add a new booking
+    public void addBooking(int memberId, int classId, String bookingStatus, Date bookingDate) throws SQLException {
+        String query = "INSERT INTO MemberClassBookings (memberId, classId, bookingStatus, bookingDate) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, memberId);
+            preparedStatement.setInt(2, classId);
+            preparedStatement.setString(3, bookingStatus);
+            preparedStatement.setDate(4, new java.sql.Date(bookingDate.getTime()));
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    // Method to get all bookings for a member
+    public List<MemberClassBooking> getBookingsByMemberId(int memberId) throws SQLException {
+        List<MemberClassBooking> bookings = new ArrayList<>();
+        String query = "SELECT * FROM MemberClassBookings WHERE memberId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, memberId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    bookings.add(new MemberClassBooking(
+                            resultSet.getInt("bookingId"),
+                            resultSet.getInt("memberId"),
+                            resultSet.getInt("classId"),
+                            resultSet.getString("bookingStatus"),
+                            resultSet.getDate("bookingDate")
+                    ));
+                }
+            }
+        }
+        return bookings;
+    }
+
+    // Method to update a booking status
+    public void updateBookingStatus(int bookingId, String newStatus) throws SQLException {
+        String query = "UPDATE MemberClassBookings SET bookingStatus = ? WHERE bookingId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, newStatus);
+            preparedStatement.setInt(2, bookingId);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    // Method to delete a booking
+    public void deleteBooking(int bookingId) throws SQLException {
+        String query = "DELETE FROM MemberClassBookings WHERE bookingId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, bookingId);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+
+
 }
