@@ -32,6 +32,6 @@
   - `DatabaseOperations.java`: This interface defines methods for performing various operations related to the Health and Fitness Club Management System in the database.
   - `JdbcDatabaseOperations.java`: The JdbcDatabaseOperations class implements the DatabaseOperations interface to interact with the database for the Health and Fitness Club Management System using JDBC.
 
-## Contributing - Group Project
+## Contributors - Group Project
 - Ali Abdollahian (101229396) 
 - Harishan Amutheesan ()
