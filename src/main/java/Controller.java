@@ -445,16 +445,7 @@ public class Controller {
         return jdbcDatabaseOp.getAllTransactions();
     }
 
-    /**
-     * Adds a transaction for the specified member to the database with the given details.
-     * After adding the transaction, triggers the GUI to update the billing and payments display.
-     *
-     * @param memberId        The ID of the member for whom the transaction is added.
-     * @param transactionDate    The date of the transaction.
-     * @param amount            The transaction amount.
-     * @param status            The status of the transaction.
-     * @throws SQLException If an SQL exception occurs while accessing the database.
-     */
+
     public void handleAddTransaction(int memberId, Date transactionDate, double amount, String status) throws SQLException {
         jdbcDatabaseOp.addTransaction(memberId, (java.sql.Date) transactionDate,amount,status);
         gui.BillingAndPaymentsGUI();

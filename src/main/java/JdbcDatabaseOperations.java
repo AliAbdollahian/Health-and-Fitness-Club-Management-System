@@ -1,5 +1,7 @@
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -544,5 +546,113 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
             preparedStatement.executeUpdate();
         }
     }
+
+    @Override
+    public List<BillingAndPayment> getAllTransactions() throws SQLException {
+        List<BillingAndPayment> transactions = new ArrayList<>();
+        String query = "SELECT * FROM billingAndPayments";
+        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                transactions.add(new BillingAndPayment(
+                        resultSet.getInt("memberId"),
+                        new Date(resultSet.getDate("transactionDate").getTime()),
+                        resultSet.getDouble("amount"),
+                        resultSet.getString("status")));
+            }
+        }
+        return transactions;
+    }
+
+    @Override
+    public void addTransaction(int memberId, Date transactionDate, double amount, String status) throws SQLException {
+        String query = "INSERT INTO billingAndPayments (memberId, transactionDate, amount, status) VALUES (?, ?, ?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, memberId);
+            preparedStatement.setDate(2, new java.sql.Date(transactionDate.getTime()));
+            preparedStatement.setDouble(3, amount);
+            preparedStatement.setString(4, status);
+
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void updateClassSchedule(int classId, String updatedClassName, java.util.Date updatedClassDate, Time updatedStartTime, Time updatedEndTime) throws SQLException {
+        String query = "UPDATE classSchedule SET className = ?, classDate = ?, startTime = ?, endTime = ? WHERE classId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, updatedClassName);
+            preparedStatement.setDate(2, new java.sql.Date(updatedClassDate.getTime()));
+            preparedStatement.setTime(3, updatedStartTime);
+            preparedStatement.setTime(4, updatedEndTime);
+            preparedStatement.setInt(5, classId);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    @Override
+    public List<MemberClassBooking> getBookingsByMemberId(int memberId) throws SQLException {
+        List<MemberClassBooking> bookings = new ArrayList<>();
+        String query = "SELECT * FROM memberClassBookings WHERE memberId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, memberId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int bookingId = resultSet.getInt("bookingId");
+                    int classId = resultSet.getInt("classId");
+                    String bookingStatus = resultSet.getString("bookingStatus");
+                    Date bookingDate = new Date(resultSet.getDate("bookingDate").getTime());
+
+                    MemberClassBooking booking = new MemberClassBooking(bookingId, memberId, classId, bookingStatus, bookingDate);
+                    bookings.add(booking);
+                }
+            }
+        }
+        return bookings;
+    }
+
+
+    @Override
+    public void deleteBooking(int bookingId) throws SQLException {
+        String query = "DELETE FROM memberClassBookings WHERE bookingId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, bookingId);
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void addBooking(int memberId, int classId, String bookingStatus, Date bookingDate) throws SQLException {
+        String query = "INSERT INTO memberClassBookings (memberId, classId, bookingStatus, bookingDate) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, memberId);
+            preparedStatement.setInt(2, classId);
+            preparedStatement.setString(3, bookingStatus);
+            preparedStatement.setDate(4, new java.sql.Date(bookingDate.getTime()));
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    @Override
+    public ClassSchedule getClassScheduleById(int classId) throws SQLException {
+        ClassSchedule classSchedule = null;
+        String query = "SELECT * FROM ClassSchedules WHERE classId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, classId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String className = resultSet.getString("className");
+                    LocalDate classDate = resultSet.getDate("classDate").toLocalDate();
+                    LocalTime startTime = resultSet.getTime("startTime").toLocalTime();
+                    LocalTime endTime = resultSet.getTime("endTime").toLocalTime();
+                    int trainerId = resultSet.getInt("trainerId");
+
+                    classSchedule = new ClassSchedule(classId, className, classDate, startTime, endTime, trainerId);
+                }
+            }
+        }
+        return classSchedule;
+    }
+
 
 }

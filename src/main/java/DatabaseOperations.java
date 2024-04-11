@@ -65,5 +65,19 @@ public interface DatabaseOperations {
     void updateEquipmentMaintenance(EquipmentMaintenance maintenance) throws SQLException;
 
     void deleteEquipmentMaintenance(int maintenanceId) throws SQLException;
+
+    List<BillingAndPayment> getAllTransactions() throws SQLException;
+
+    void addTransaction(int memberId, Date transactionDate, double amount, String status) throws SQLException;
+
+    void updateClassSchedule(int classId, String updatedClassName, java.util.Date updatedClassDate, Time updatedStartTime, Time updatedEndTime) throws SQLException;
+
+    List<MemberClassBooking> getBookingsByMemberId(int memberId) throws SQLException;
+
+    void deleteBooking(int bookingId) throws SQLException;
+
+    void addBooking(int memberId, int classId, String bookingStatus, Date bookingDate) throws SQLException;
+
+    ClassSchedule getClassScheduleById(int classId) throws SQLException;
 }
 

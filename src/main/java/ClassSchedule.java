@@ -1,3 +1,5 @@
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -18,6 +20,7 @@ public class ClassSchedule {
         this.endTime = endTime;
         this.trainerId = trainerId;
     }
+
 
     // Getters
     public int getClassId() {
