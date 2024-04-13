@@ -1,4 +1,5 @@
 import com.toedter.calendar.JDateChooser;
+
 import javax.swing.*;
 import java.awt.*;
 import java.sql.SQLException;
@@ -10,10 +11,19 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Controller class manages the interactions between the GUI and the database operations.
+ */
 public class Controller {
     public JdbcDatabaseOperations jdbcDatabaseOp;
     public GUI gui;
 
+    /**
+     * Constructs a new Controller with specified database operations and GUI.
+     *
+     * @param jdbcDatabaseOp The database operations object.
+     * @param gui            The GUI object.
+     */
     public Controller(JdbcDatabaseOperations jdbcDatabaseOp, GUI gui) {
         this.jdbcDatabaseOp = jdbcDatabaseOp;
         this.gui = gui;
@@ -59,25 +69,33 @@ public class Controller {
         }
     }
 
+
     /**
      * Registers a new member by collecting member information via input dialogs and saving it to the database.
      */
     private void registerNewMember() {
-        String fullName = JOptionPane.showInputDialog("Enter your full name:");
+        JTextField fullNameField = new JTextField();
         JDateChooser dateChooser = new JDateChooser();
-        int option = JOptionPane.showConfirmDialog(null, dateChooser, "Select your date of birth", JOptionPane.OK_CANCEL_OPTION);
-        Date dateOfBirth = null;
-        if (option == JOptionPane.OK_OPTION) {
-            dateOfBirth = dateChooser.getDate();
-        } else {
-            System.out.println("Operation canceled.");
-            return;
-        }
-        String fitnessGoal = JOptionPane.showInputDialog("Enter your fitness goal:");
-        double weightGoal = Double.parseDouble(JOptionPane.showInputDialog("Enter your weight goal:"));
+        JTextField fitnessGoalField = new JTextField();
+        JTextField weightGoalField = new JTextField();
 
-        Member newMember = new Member(0, fullName, dateOfBirth, fitnessGoal, weightGoal, 0);
-        jdbcDatabaseOp.addMember(newMember);
+        Object[] fields = {
+                "Full Name:", fullNameField,
+                "Date of Birth:", dateChooser,
+                "Fitness Goal:", fitnessGoalField,
+                "Weight Goal:", weightGoalField
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, fields, "Register New Member", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            String fullName = fullNameField.getText();
+            Date dateOfBirth = dateChooser.getDate();
+            String fitnessGoal = fitnessGoalField.getText();
+            double weightGoal = Double.parseDouble(weightGoalField.getText());
+
+            Member newMember = new Member(0, fullName, dateOfBirth, fitnessGoal, weightGoal, 0);
+            jdbcDatabaseOp.addMember(newMember);
+        }
     }
 
     /**
@@ -86,13 +104,19 @@ public class Controller {
      * If the trainer is found, opens the trainer profile in the GUI; otherwise, displays a "Trainer not found!" message.
      */
     public void trainerClicked() {
-        int idOfTrainer = Integer.parseInt(JOptionPane.showInputDialog("Enter your trainer ID: "));
-        Trainer trainer = jdbcDatabaseOp.getTrainerById(idOfTrainer);
+        JTextField trainerIdField = new JTextField();
+        Object[] fields = {"Trainer ID:", trainerIdField};
 
-        if (trainer != null) {
-            gui.openTrainerProfile(trainer);
-        } else {
-            JOptionPane.showMessageDialog(null, "Trainer not found!");
+        int option = JOptionPane.showConfirmDialog(null, fields, "Enter Trainer ID", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            int idOfTrainer = Integer.parseInt(trainerIdField.getText());
+            Trainer trainer = jdbcDatabaseOp.getTrainerById(idOfTrainer);
+
+            if (trainer != null) {
+                gui.openTrainerProfile(trainer);
+            } else {
+                JOptionPane.showMessageDialog(null, "Trainer not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
@@ -103,7 +127,7 @@ public class Controller {
      * @param trainer The Trainer object whose availability is to be set.
      */
     void setAvailability(Trainer trainer) {
-        System.out.println("Current availability: " + trainer.getAvailability());
+        JOptionPane.showMessageDialog(null, "Current availability: " + trainer.getAvailability());
 
         JDateChooser dateChooser = new JDateChooser();
         int option = JOptionPane.showConfirmDialog(null, dateChooser, "Select availability date", JOptionPane.OK_CANCEL_OPTION);
@@ -111,10 +135,10 @@ public class Controller {
             Date availability = dateChooser.getDate();
             trainer.setAvailability(availability);
             jdbcDatabaseOp.updateTrainer(trainer);
-            System.out.println("Availability updated successfully.");
+            JOptionPane.showMessageDialog(null, "Availability updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             gui.updateTrainerProfile(trainer);
         } else {
-            System.out.println("Operation canceled.");
+            JOptionPane.showMessageDialog(null, "Operation canceled.", "Canceled", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -123,16 +147,21 @@ public class Controller {
      * Otherwise, displays a "Member not found!" message.
      */
     void searchMembersByName() {
-        String memberName = JOptionPane.showInputDialog("Enter the name of the member: ");
-        Member member = jdbcDatabaseOp.getMemberByName(memberName);
+        JTextField memberNameField = new JTextField();
+        Object[] fields = {"Member Name:", memberNameField};
 
-        if (member != null) {
-            JOptionPane.showMessageDialog(null, "Member found:\n" + member);
-        } else {
-            JOptionPane.showMessageDialog(null, "Member not found!");
+        int option = JOptionPane.showConfirmDialog(null, fields, "Search Member by Name", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            String memberName = memberNameField.getText();
+            Member member = jdbcDatabaseOp.getMemberByName(memberName);
+
+            if (member != null) {
+                JOptionPane.showMessageDialog(null, "Member found:\n" + member, "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Member not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
-
     /**
      * Allows a member to update their profile information based on the chosen option.
      * Prompts the user to select the information to update and provides input dialogs for entering new values.
@@ -175,7 +204,7 @@ public class Controller {
                 return;
         }
         jdbcDatabaseOp.updateMember(member);
-        JOptionPane.showMessageDialog(null, "Profile updated successfully.");
+        JOptionPane.showMessageDialog(null, "Profile updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
         gui.updateGUMemberProfile(member);
     }
 
@@ -189,8 +218,8 @@ public class Controller {
     public double getHeightMember(Member member) {
         List<HealthMetrics> healthMetrics = jdbcDatabaseOp.getHealthMetricsByMemberId(member.getMemberId());
         double height = 0.0;
-         if (!healthMetrics.isEmpty()) {
-           HealthMetrics latestMetrics = healthMetrics.get(healthMetrics.size() - 1);
+        if (!healthMetrics.isEmpty()) {
+            HealthMetrics latestMetrics = healthMetrics.get(healthMetrics.size() - 1);
             height = latestMetrics.getHeight();
         }
         return height;
@@ -206,7 +235,7 @@ public class Controller {
             gui.displayRoomBookings(roomBookings);
         } catch (SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error fetching room bookings from the database!");
+            JOptionPane.showMessageDialog(null, "Error fetching room bookings from the database!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -232,7 +261,7 @@ public class Controller {
                 cancelClassForMember(member);
                 break;
             default:
-                JOptionPane.showMessageDialog(gui.frame, "Invalid option.");
+                JOptionPane.showMessageDialog(gui.frame, "Invalid option.", "Error", JOptionPane.ERROR_MESSAGE);
                 break;
         }
     }
@@ -287,14 +316,13 @@ public class Controller {
                 ClassSchedule selectedSchedule = schedules.get(classChoice);
                 LocalDate classDate = selectedSchedule.getClassDate();
                 jdbcDatabaseOp.addBooking(member.getMemberId(), selectedSchedule.getClassId(), "Booked", java.sql.Date.valueOf(classDate));
-                JOptionPane.showMessageDialog(null, "Class booked successfully!");
+                JOptionPane.showMessageDialog(null, "Class booked successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error booking class.", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
-
     /**
      * Retrieves the bookings for the specified member from the database and displays them in an option dialog.
      * Cancels the selected booking for the member by deleting the booking entry from the database.
@@ -313,10 +341,10 @@ public class Controller {
             if (bookingChoice >= 0) {
                 MemberClassBooking selectedBooking = bookings.get(bookingChoice);
                 jdbcDatabaseOp.deleteBooking(selectedBooking.getBookingId());
-                JOptionPane.showMessageDialog(null, "Booking cancelled successfully.");
+                JOptionPane.showMessageDialog(gui.frame, "Booking cancelled successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error cancelling booking.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(gui.frame, "Error cancelling booking.", "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
@@ -341,6 +369,7 @@ public class Controller {
         List<EquipmentMaintenance> maintenanceRecords = getEquipmentMaintenanceRecords();
         gui.displayEquipmentMaintenanceRecords(maintenanceRecords);
     }
+
     public List<EquipmentMaintenance> getEquipmentMaintenanceRecords() throws SQLException {
         return jdbcDatabaseOp.getAllEquipmentMaintenanceRecords();
     }
@@ -351,9 +380,8 @@ public class Controller {
      * @param member The Member object for whom to calculate the BMI.
      * @return The calculated BMI value.
      */
-
     public double calculateBMI(Member member) {
-        double height = getHeightMember(member)/100;
+        double height = getHeightMember(member) / 100;
         double weight = member.getWeightGoal();
 
         if (height == 0) {
@@ -380,27 +408,26 @@ public class Controller {
         return jdbcDatabaseOp.getAllClassSchedules();
     }
 
-
     /**
      * Initiates the billing and payment processing by calling the corresponding method in the GUI.
      */
     public void billingAndPaymentProcessing() {
-        gui.BillingAndPaymentsGUI();
+        gui.billingAndPaymentsGUI();
     }
 
     /**
      * Updates the details of a class schedule in the database with the specified information.
      * After updating the class schedule, triggers the GUI to handle the updated class schedule records.
      *
-     * @param classId         The ID of the class schedule to be updated.
-     * @param updatedClassName    The updated class name.
-     * @param updatedClassDate    The updated class date.
-     * @param updatedStartTime    The updated start time.
-     * @param updatedEndTime    The updated end time.
+     * @param classId          The ID of the class schedule to be updated.
+     * @param updatedClassName The updated class name.
+     * @param updatedClassDate The updated class date.
+     * @param updatedStartTime The updated start time.
+     * @param updatedEndTime   The updated end time.
      * @throws SQLException If an SQL exception occurs while accessing the database.
      */
     public void updateClassSchedule(int classId, String updatedClassName, Date updatedClassDate, Time updatedStartTime, Time updatedEndTime) throws SQLException {
-        jdbcDatabaseOp.updateClassSchedule(classId,updatedClassName,updatedClassDate,updatedStartTime,updatedEndTime);
+        jdbcDatabaseOp.updateClassSchedule(classId, updatedClassName, updatedClassDate, updatedStartTime, updatedEndTime);
         classScheduleUpdating();
     }
 
@@ -445,29 +472,50 @@ public class Controller {
     public List<BillingAndPayment> billingAndPayments() throws SQLException {
         return jdbcDatabaseOp.getAllTransactions();
     }
-
-
+    /**
+     * Handles the addition of a new transaction by calling the corresponding method in the database operations class.
+     * After adding the transaction, triggers the GUI to update the billing and payments display.
+     *
+     * @param memberId        The ID of the member associated with the transaction.
+     * @param transactionDate The date of the transaction.
+     * @param amount          The amount of the transaction.
+     * @param status          The status of the transaction.
+     * @throws SQLException If an SQL exception occurs while accessing the database.
+     */
     public void handleAddTransaction(int memberId, Date transactionDate, double amount, String status) throws SQLException {
         jdbcDatabaseOp.addTransaction(memberId, (java.sql.Date) transactionDate,amount,status);
-        gui.BillingAndPaymentsGUI();
+        gui.billingAndPaymentsGUI();
     }
 
+    /**
+     * Displays the achievements of a member identified by the provided member ID.
+     * Retrieves the achievements from the database and delegates the display to the GUI.
+     *
+     * @param memberId The ID of the member whose achievements are to be displayed.
+     */
     public void displayMemberAchievements(int memberId) {
         try {
             List<Achievement> achievements = jdbcDatabaseOp.getAchievementsByMemberId(memberId);
             gui.displayAchievements(achievements, memberId);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error fetching achievements: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(gui.frame, "Error fetching achievements: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
 
+    /**
+     * This method is used to add a new achievement to the database.
+     * It calls the 'addAchievement' method of the 'jdbcDatabaseOp' object, which handles the database operations.
+     *
+     * @param achievement The Achievement object that contains the details of the achievement to be added.
+     */
     public void addAchievement(Achievement achievement) {
         jdbcDatabaseOp.addAchievement(achievement);
     }
 
     /**
-     * Opens a window for the admin to add an achievement to a member.
+     * Adds a new achievement for a member.
+     * Prompts the admin to input the member ID, description, and date achieved for the new achievement.
      */
     public void addAchievementToMember() {
         JTextField memberIdField = new JTextField();
@@ -497,7 +545,8 @@ public class Controller {
     }
 
     /**
-     * Displays the leaderboard in a new window.
+     * Displays the leaderboard, showing members ranked by their achievement count.
+     * Retrieves the leaderboard data from the database and displays it in a new window.
      */
     public void displayLeaderboard() {
         try {
@@ -505,14 +554,7 @@ public class Controller {
             JFrame leaderboardFrame = new JFrame("Leaderboard");
             leaderboardFrame.setLayout(new BorderLayout());
             String[] columnNames = {"Member ID", "Name", "Achievement Count"};
-            Object[][] data = new Object[leaderboard.size()][3];
-            int i = 0;
-            for (MemberAchievementCount mac : leaderboard) {
-                data[i][0] = mac.getMemberId();
-                data[i][1] = mac.getFullName();
-                data[i][2] = mac.getAchievementCount();
-                i++;
-            }
+            Object[][] data = leaderboard.stream().map(mac -> new Object[]{mac.getMemberId(), mac.getFullName(), mac.getAchievementCount()}).toArray(Object[][]::new);
             JTable table = new JTable(data, columnNames);
             JScrollPane scrollPane = new JScrollPane(table);
             leaderboardFrame.add(scrollPane, BorderLayout.CENTER);
@@ -524,6 +566,16 @@ public class Controller {
         }
     }
 
+    /**
+     * Adds feedback provided by a member for a class.
+     *
+     * @param memberId     The ID of the member providing the feedback.
+     * @param classId      The ID of the class for which the feedback is provided.
+     * @param trainerId    The ID of the trainer associated with the class.
+     * @param rating       The rating provided by the member for the class.
+     * @param comments     The comments provided by the member for the class.
+     * @param feedbackDate The date when the feedback is provided.
+     */
     public void addFeedback(int memberId, int classId, int trainerId, int rating, String comments, Date feedbackDate) {
         try {
             Feedback feedback = new Feedback(0, memberId, classId, trainerId, rating, comments, feedbackDate);
@@ -534,10 +586,16 @@ public class Controller {
         }
     }
 
-
+    /**
+     * Retrieves all feedback records from the database.
+     *
+     * @return A list of Feedback objects representing the feedback records.
+     * @throws SQLException If an SQL exception occurs while accessing the database.
+     */
     public List<Feedback> getAllFeedback() throws SQLException {
         return jdbcDatabaseOp.getAllFeedback();
     }
+
 
 
 
