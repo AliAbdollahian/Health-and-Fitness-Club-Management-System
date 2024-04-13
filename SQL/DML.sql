@@ -13,6 +13,9 @@ VALUES
 (9, 'Irina Shayk', '1993-11-09', 'General fitness', 55, 60),
 (10, 'John Doe', '1990-02-25', 'Gain muscle', 85, 60);
 
+-- Reset the sequence for the memberId in the member table
+SELECT setval('member_memberid_seq', COALESCE((SELECT MAX(memberId) + 1 FROM member), 1), false);
+
 -- Insert data into Trainers table
 INSERT INTO trainer (trainerId, fullName, availability)
 VALUES
@@ -71,6 +74,9 @@ INSERT INTO healthMetrics (metricId, memberId, weight, height) VALUES
 (2, 2, 82, 175),
 (3, 3, 70, 165),
 (4, 4, 78, 180);
+
+-- Reset the sequence for the metricId in the healthMetrics table
+SELECT setval('healthMetrics_metricId_seq', COALESCE((SELECT MAX(metricId) + 1 FROM healthmetrics), 1), false);
 
 -- Billing and Payments Data Insertion
 INSERT INTO billingandpayments (transactionId, memberId, transactionDate, amount, status) VALUES
