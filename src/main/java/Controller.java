@@ -1,5 +1,6 @@
 import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
+import java.awt.*;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.text.DecimalFormat;
@@ -450,6 +451,96 @@ public class Controller {
         jdbcDatabaseOp.addTransaction(memberId, (java.sql.Date) transactionDate,amount,status);
         gui.BillingAndPaymentsGUI();
     }
+
+    public void displayMemberAchievements(int memberId) {
+        try {
+            List<Achievement> achievements = jdbcDatabaseOp.getAchievementsByMemberId(memberId);
+            gui.displayAchievements(achievements, memberId);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error fetching achievements: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    public void addAchievement(Achievement achievement) {
+        jdbcDatabaseOp.addAchievement(achievement);
+    }
+
+    /**
+     * Opens a window for the admin to add an achievement to a member.
+     */
+    public void addAchievementToMember() {
+        JTextField memberIdField = new JTextField();
+        JTextField descriptionField = new JTextField();
+        JDateChooser dateChooser = new JDateChooser();
+        dateChooser.setDateFormatString("yyyy-MM-dd");
+
+        Object[] message = {
+                "Member ID:", memberIdField,
+                "Description:", descriptionField,
+                "Date Achieved:", dateChooser
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, message, "Add Achievement", JOptionPane.OK_CANCEL_OPTION);
+        if (option == JOptionPane.OK_OPTION) {
+            try {
+                int memberId = Integer.parseInt(memberIdField.getText());
+                String description = descriptionField.getText();
+                Date dateAchieved = dateChooser.getDate();
+                Achievement achievement = new Achievement(0, memberId, description, dateAchieved);
+                jdbcDatabaseOp.addAchievement(achievement);
+                JOptionPane.showMessageDialog(gui.frame, "Achievement added successfully.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(gui.frame, "Error adding achievement: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    /**
+     * Displays the leaderboard in a new window.
+     */
+    public void displayLeaderboard() {
+        try {
+            List<MemberAchievementCount> leaderboard = jdbcDatabaseOp.getMembersAchievementCount();
+            JFrame leaderboardFrame = new JFrame("Leaderboard");
+            leaderboardFrame.setLayout(new BorderLayout());
+            String[] columnNames = {"Member ID", "Name", "Achievement Count"};
+            Object[][] data = new Object[leaderboard.size()][3];
+            int i = 0;
+            for (MemberAchievementCount mac : leaderboard) {
+                data[i][0] = mac.getMemberId();
+                data[i][1] = mac.getFullName();
+                data[i][2] = mac.getAchievementCount();
+                i++;
+            }
+            JTable table = new JTable(data, columnNames);
+            JScrollPane scrollPane = new JScrollPane(table);
+            leaderboardFrame.add(scrollPane, BorderLayout.CENTER);
+            leaderboardFrame.setSize(400, 300);
+            leaderboardFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            leaderboardFrame.setVisible(true);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(gui.frame, "Error retrieving leaderboard: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void addFeedback(int memberId, int classId, int trainerId, int rating, String comments, Date feedbackDate) {
+        try {
+            Feedback feedback = new Feedback(0, memberId, classId, trainerId, rating, comments, feedbackDate);
+            jdbcDatabaseOp.addFeedback(feedback);
+            JOptionPane.showMessageDialog(gui.frame, "Feedback submitted successfully!");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(gui.frame, "Failed to submit feedback: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    public List<Feedback> getAllFeedback() throws SQLException {
+        return jdbcDatabaseOp.getAllFeedback();
+    }
+
+
+
 }
 
 

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcDatabaseOperations implements DatabaseOperations {
-    private static final String URL = "jdbc:postgresql://localhost:5432/Health and Fitness Club Management System";
+    private static final String URL = "jdbc:postgresql://localhost:5432/Health-and-Fitness-Club-Management-System";
     private static final String USER = "postgres";
-    private static final String PASSWORD = "987654Aa@";
+    private static final String PASSWORD = "postgres";
     private Connection connection;
 
     public JdbcDatabaseOperations() {
@@ -621,6 +621,7 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
         }
     }
 
+
     @Override
     public void addBooking(int memberId, int classId, String bookingStatus, Date bookingDate) throws SQLException {
         String query = "INSERT INTO memberClassBookings (memberId, classId, bookingStatus, bookingDate) VALUES (?, ?, ?, ?)";
@@ -653,6 +654,124 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
         }
         return classSchedule;
     }
+
+    // Add an achievement
+    @Override
+    public void addAchievement(Achievement achievement) {
+        String query = "INSERT INTO Achievements (memberId, description, dateAchieved) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = this.connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, achievement.getMemberId());
+            preparedStatement.setString(2, achievement.getDescription());
+            preparedStatement.setDate(3, new java.sql.Date(achievement.getDateAchieved().getTime()));
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    // Get all achievements for a member
+    @Override
+    public List<Achievement> getAchievementsByMemberId(int memberId) throws SQLException {
+        List<Achievement> achievements = new ArrayList<>();
+        String query = "SELECT * FROM Achievements WHERE memberId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, memberId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                achievements.add(new Achievement(
+                        resultSet.getInt("achievementId"),
+                        memberId,
+                        resultSet.getString("description"),
+                        resultSet.getDate("dateAchieved")
+                ));
+            }
+        }
+        return achievements;
+    }
+
+
+
+        /**
+         * Retrieves a list of members along with their total number of achievements.
+         * @return List of MemberAchievementCount representing the leaderboard.
+         */
+        public List<MemberAchievementCount> getMembersAchievementCount() throws SQLException {
+            List<MemberAchievementCount> members = new ArrayList<>();
+            String query = "SELECT m.memberId, m.fullName, COUNT(a.achievementId) as achievementCount " +
+                    "FROM Member m LEFT JOIN Achievements a ON m.memberId = a.memberId " +
+                    "GROUP BY m.memberId, m.fullName " +
+                    "ORDER BY achievementCount DESC";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int memberId = resultSet.getInt("memberId");
+                    String fullName = resultSet.getString("fullName");
+                    int achievementCount = resultSet.getInt("achievementCount");
+                    members.add(new MemberAchievementCount(memberId, fullName, achievementCount));
+                }
+            }
+            return members;
+        }
+
+    public void addFeedback(Feedback feedback) throws SQLException {
+        String query = "INSERT INTO Feedback (memberId, classId, trainerId, rating, comments, feedbackDate) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, feedback.getMemberId());
+            preparedStatement.setInt(2, feedback.getClassId());
+            preparedStatement.setInt(3, feedback.getTrainerId());
+            preparedStatement.setInt(4, feedback.getRating());
+            preparedStatement.setString(5, feedback.getComments());
+            preparedStatement.setDate(6, new java.sql.Date(feedback.getFeedbackDate().getTime()));
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public List<Feedback> getFeedbackByClassId(int classId) throws SQLException {
+        List<Feedback> feedbacks = new ArrayList<>();
+        String query = "SELECT * FROM Feedback WHERE classId = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, classId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                feedbacks.add(new Feedback(
+                        resultSet.getInt("feedbackId"),
+                        resultSet.getInt("memberId"),
+                        resultSet.getInt("classId"),
+                        resultSet.getInt("trainerId"),
+                        resultSet.getInt("rating"),
+                        resultSet.getString("comments"),
+                        resultSet.getDate("feedbackDate")
+                ));
+            }
+        }
+        return feedbacks;
+    }
+
+    public List<Feedback> getAllFeedback() throws SQLException {
+        List<Feedback> feedbackList = new ArrayList<>();
+        String query = "SELECT * FROM Feedback";
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                feedbackList.add(new Feedback(
+                        resultSet.getInt("feedbackId"),
+                        resultSet.getInt("memberId"),
+                        resultSet.getInt("classId"),
+                        resultSet.getInt("trainerId"),
+                        resultSet.getInt("rating"),
+                        resultSet.getString("comments"),
+                        resultSet.getDate("feedbackDate")
+                ));
+            }
+        }
+        return feedbackList;
+    }
+
+
+
+
 
 
 }

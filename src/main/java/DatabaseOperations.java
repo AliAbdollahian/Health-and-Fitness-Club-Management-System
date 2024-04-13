@@ -79,5 +79,11 @@ public interface DatabaseOperations {
     void addBooking(int memberId, int classId, String bookingStatus, Date bookingDate) throws SQLException;
 
     ClassSchedule getClassScheduleById(int classId) throws SQLException;
+
+    // Add an achievement
+    void addAchievement(Achievement achievement) throws SQLException;
+
+    // Get all achievements for a member
+    List<Achievement> getAchievementsByMemberId(int memberId) throws SQLException;
 }
 

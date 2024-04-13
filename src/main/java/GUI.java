@@ -150,6 +150,16 @@ public class GUI extends JFrame {
         JButton manageBookingButton = new JButton("Manage Booking");
         manageBookingButton.addActionListener(e -> controller.manageSchedule(member));
 
+        JButton viewAchievementsButton = new JButton("View Achievements");
+        viewAchievementsButton.addActionListener(e -> controller.displayMemberAchievements(member.getMemberId()));
+
+        JButton viewLeaderboardButton = new JButton("View Leaderboard");
+        viewLeaderboardButton.addActionListener(e -> controller.displayLeaderboard());
+
+        JButton submitFeedbackButton = new JButton("Submit Feedback");
+        submitFeedbackButton.addActionListener(e -> openFeedbackForm(member));
+
+
         memberFrame.add(welcomePanel, BorderLayout.NORTH);
         memberPanel.add(memberIdLabel);
         memberPanel.add(fullNameLabel);
@@ -161,6 +171,9 @@ public class GUI extends JFrame {
         memberPanel.add(bmiLabel);
         memberPanel.add(updateProfileButton);
         memberPanel.add(manageBookingButton);
+        memberPanel.add(viewAchievementsButton);
+        memberPanel.add(viewLeaderboardButton);
+        memberPanel.add(submitFeedbackButton);
         memberFrame.add(memberPanel, BorderLayout.CENTER);
         memberFrame.pack();
         memberFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -289,6 +302,14 @@ public class GUI extends JFrame {
         JButton billingButton = new JButton("Billing and Payment Processing");
         billingButton.addActionListener(e -> controller.billingAndPaymentProcessing());
 
+        JButton addAchievementButton = new JButton("Add Achievement for Member");
+        addAchievementButton.addActionListener(e -> openAddAchievementForm());
+
+        JButton viewFeedbackButton = new JButton("View Feedback");
+        viewFeedbackButton.addActionListener(e -> displayFeedbackRecords());
+
+
+
         welcomePanel.add(welcomeLabel);
         adminFrame.add(welcomePanel, BorderLayout.NORTH);
 
@@ -300,6 +321,8 @@ public class GUI extends JFrame {
         adminPanel.add(equipmentMaintenanceButton);
         adminPanel.add(classScheduleButton);
         adminPanel.add(billingButton);
+        adminPanel.add(addAchievementButton);
+        adminPanel.add(viewFeedbackButton);
 
         adminFrame.add(adminPanel, BorderLayout.CENTER);
 
@@ -572,6 +595,160 @@ public class GUI extends JFrame {
         String status = statusField.getText();
         controller.handleAddTransaction(memberId, transactionDate, amount, status);
     }
+
+    public void displayAchievements(List<Achievement> achievements, int memberId) {
+        JFrame frame = new JFrame("Achievements for Member ID: " + memberId);
+        frame.setLayout(new BorderLayout());
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("Achievement ID");
+        model.addColumn("Description");
+        model.addColumn("Date Achieved");
+
+        for (Achievement achievement : achievements) {
+            model.addRow(new Object[]{achievement.getAchievementId(), achievement.getDescription(), achievement.getDateAchieved().toString()});
+        }
+
+        JTable table = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane(table);
+        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    private void openAddAchievementForm() {
+        JFrame frame = new JFrame("Add Achievement");
+        frame.setLayout(new BorderLayout());
+
+        JPanel panel = new JPanel(new GridLayout(0, 2));
+
+        JLabel memberIdLabel = new JLabel("Member ID:");
+        JTextField memberIdField = new JTextField();
+        JLabel descriptionLabel = new JLabel("Description:");
+        JTextField descriptionField = new JTextField();
+        JLabel dateAchievedLabel = new JLabel("Date Achieved:");
+        JDateChooser dateAchievedChooser = new JDateChooser();
+        dateAchievedChooser.setDateFormatString("yyyy-MM-dd"); // Set the format to match your existing usage
+
+        panel.add(memberIdLabel);
+        panel.add(memberIdField);
+        panel.add(descriptionLabel);
+        panel.add(descriptionField);
+        panel.add(dateAchievedLabel);
+        panel.add(dateAchievedChooser);
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(e -> {
+            try {
+                int memberId = Integer.parseInt(memberIdField.getText().trim());
+                String description = descriptionField.getText().trim();
+                Date dateAchieved = dateAchievedChooser.getDate();
+                if (dateAchieved == null) {
+                    JOptionPane.showMessageDialog(frame, "Please select a valid date.", "Invalid Date", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                Achievement achievement = new Achievement(0, memberId, description, dateAchieved);  // Assuming Achievement constructor
+                controller.addAchievement(achievement);
+                JOptionPane.showMessageDialog(frame, "Achievement added successfully!");
+                frame.dispose();
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(frame, "Please enter a valid member ID.", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame, "Failed to add achievement: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
+        frame.add(panel, BorderLayout.CENTER);
+        frame.add(submitButton, BorderLayout.SOUTH);
+
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+
+    private void openFeedbackForm(Member member) {
+        JFrame feedbackFrame = new JFrame("Submit Feedback");
+        feedbackFrame.setLayout(new BorderLayout());
+
+        JPanel feedbackPanel = new JPanel();
+        feedbackPanel.setLayout(new GridLayout(6, 2, 10, 10));
+
+        JLabel classIdLabel = new JLabel("Class ID:");
+        JTextField classIdField = new JTextField(10);
+
+        JLabel trainerIdLabel = new JLabel("Trainer ID:");
+        JTextField trainerIdField = new JTextField(10);
+
+        JLabel ratingLabel = new JLabel("Rating (1-5):");
+        JTextField ratingField = new JTextField(10);
+
+        JLabel commentsLabel = new JLabel("Comments:");
+        JTextArea commentsArea = new JTextArea(5, 20);
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(e -> {
+            int classId = Integer.parseInt(classIdField.getText().trim());
+            int trainerId = Integer.parseInt(trainerIdField.getText().trim());
+            int rating = Integer.parseInt(ratingField.getText().trim());
+            String comments = commentsArea.getText();
+            controller.addFeedback(member.getMemberId(), classId, trainerId, rating, comments, new Date());
+            feedbackFrame.dispose();
+        });
+
+        feedbackPanel.add(classIdLabel);
+        feedbackPanel.add(classIdField);
+        feedbackPanel.add(trainerIdLabel);
+        feedbackPanel.add(trainerIdField);
+        feedbackPanel.add(ratingLabel);
+        feedbackPanel.add(ratingField);
+        feedbackPanel.add(commentsLabel);
+        feedbackPanel.add(new JScrollPane(commentsArea));
+        feedbackPanel.add(submitButton);
+
+        feedbackFrame.add(feedbackPanel, BorderLayout.CENTER);
+        feedbackFrame.pack();
+        feedbackFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        feedbackFrame.setVisible(true);
+    }
+
+    public void displayFeedbackRecords() {
+        JFrame feedbackFrame = new JFrame("Feedback Records");
+        feedbackFrame.setLayout(new BorderLayout());
+
+        String[] columnNames = {"Feedback ID", "Member ID", "Class ID", "Trainer ID", "Rating", "Comments", "Date"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        try {
+            List<Feedback> feedbackList = controller.getAllFeedback();
+            for (Feedback feedback : feedbackList) {
+                model.addRow(new Object[]{
+                        feedback.getFeedbackId(),
+                        feedback.getMemberId(),
+                        feedback.getClassId(),
+                        feedback.getTrainerId(),
+                        feedback.getRating(),
+                        feedback.getComments(),
+                        feedback.getFeedbackDate().toString()
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(feedbackFrame, "Error fetching feedback: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        JTable table = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane(table);
+        feedbackFrame.add(scrollPane, BorderLayout.CENTER);
+
+        feedbackFrame.setSize(800, 400);
+        feedbackFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        feedbackFrame.setVisible(true);
+    }
+
+
+
+
+
     public static void main(String[] args) {
         new GUI();
     }
