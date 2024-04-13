@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcDatabaseOperations implements DatabaseOperations {
-    private static final String URL = "jdbc:postgresql://localhost:5432/Health-and-Fitness-Club-Management-System";
+    private static final String URL = "jdbc:postgresql://localhost:5432/yoyo";
     private static final String USER = "postgres";
     private static final String PASSWORD = "postgres";
     private Connection connection;
@@ -768,6 +768,23 @@ public class JdbcDatabaseOperations implements DatabaseOperations {
         }
         return feedbackList;
     }
+
+    public void addHealthMetrics(int memberId, double weight, double height) {
+        String query = "INSERT INTO healthmetrics (memberId, weight, height) VALUES (?, ?, ?)";
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, memberId);
+            preparedStatement.setDouble(2, weight);
+            preparedStatement.setDouble(3, height);
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Adding health metrics failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 
