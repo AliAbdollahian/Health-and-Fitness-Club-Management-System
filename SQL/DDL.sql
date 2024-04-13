@@ -93,3 +93,15 @@ CREATE TABLE IF NOT EXISTS equipmentmaintenance (
     maintenanceDate DATE NOT NULL,
     maintenanceType VARCHAR(255) NOT NULL
 );
+
+-- Member Class Bookings Table
+CREATE TABLE MemberClassBookings (
+    bookingId SERIAL PRIMARY KEY,
+    memberId INT NOT NULL,
+    classId INT NOT NULL,
+    bookingStatus VARCHAR(50) DEFAULT 'Booked',
+    bookingDate DATE NOT NULL,
+    FOREIGN KEY (memberId) REFERENCES Member(memberId),
+    FOREIGN KEY (classId) REFERENCES ClassSchedules(classId)
+);
+
