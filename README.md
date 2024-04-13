@@ -1,6 +1,7 @@
 # Health-and-Fitness-Club-Management-System
 
 ## Description
+
 - This project is a Health and Fitness Club Management System that helps manage members, trainers, administrative staff, class schedules, room bookings, equipment maintenance, and billing/payment transactions.
 
 ## Installation
@@ -30,7 +31,7 @@
 5. **Run the application:**
 - Execute the `main` method in the `GUI` class to start the application.
 
-## Usage
+## Usage 
 - Import the project into your preferred Java IDE.
 - Ensure that the PostgreSQL database server is running on your local machine.
 - Update the database connection details in the JdbcDatabaseOperations class if necessary.
@@ -47,8 +48,6 @@
 - Viewing achievements and feedback.
 - Viewing a leaderboard of members ranked by their achievement count.
 - Viewing a member's health metrics and calculating their BMI.
-
-
 
 ## Components
 
