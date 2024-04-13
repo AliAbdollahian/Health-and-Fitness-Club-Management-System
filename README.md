@@ -3,6 +3,8 @@
 ## Description
 
 - This project is a Health and Fitness Club Management System that helps manage members, trainers, administrative staff, class schedules, room bookings, equipment maintenance, and billing/payment transactions.
+- You can see the detailed explanation of the application on Vimeo using link below
+- https://vimeo.com/934381497?share=copy
 
 ## Installation
 - Ensure Java OpenJDK 21.0.2 is installed on your system. 
