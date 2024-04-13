@@ -432,7 +432,7 @@ public class GUI extends JFrame {
         JFrame bookingsFrame = new JFrame("Room Bookings");
         bookingsFrame.setLayout(new BorderLayout());
 
-        String[] columnNames = {"Booking ID", "Room ID", "Booking Date", "Start Time", "End Time", "Actions"};
+        String[] columnNames = {"Booking ID", "Room ID", "Booking Date", "Start Time", "End Time", "Debug"};
         Object[][] rowData = new Object[roomBookings.size()][columnNames.length];
 
         for (int i = 0; i < roomBookings.size(); i++) {
