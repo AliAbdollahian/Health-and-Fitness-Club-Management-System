@@ -13,7 +13,7 @@
 ### Steps
 1. **Clone the repository:** 
    ```bash
-   git clone https://github.com/yourusername/Health-and-Fitness-Club-Management-System.git
+   git clone https://github.com/AliAbdollahian/Health-and-Fitness-Club-Management-System.git
    cd Health-and-Fitness-Club-Management-System
 
 2. **Compile the project:**
